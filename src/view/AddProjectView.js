@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import {Overlay, Input, Button} from 'react-native-elements';
-import {useTasks} from '../providers/TasksProvider';
+import {useProjects} from '../providers/ProjectsProvider';
+import {useAuth} from '../providers/AuthProvider';
 
-// The AddTaskView is a button for adding tasks. When the button is pressed, an
-// overlay shows up to request user input for the new task name. When the
-// "Create" button on the overlay is pressed, the overlay closes and the new
-// task is created in the realm.
-export function AddTaskView() {
+export function AddProjectView() {
   const [overlayVisible, setOverlayVisible] = useState(false);
-  const [newTaskName, setNewTaskName] = useState('');
+  const [projectName, setProjectName] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
 
-  const {createTask} = useTasks();
+  const {createProject} = useProjects();
+  const {user} = useAuth();
 
   return (
     <>
@@ -20,23 +19,26 @@ export function AddTaskView() {
         onBackdropPress={() => setOverlayVisible(false)}>
         <>
           <Input
-            placeholder="New Task Name"
-            onChangeText={text => setNewTaskName(text)}
+            placeholder="Project Name"
+            onChangeText={setProjectName}
             autoFocus={true}
+          />
+          <Input
+            placeholder="Project Description"
+            onChangeText={setProjectDescription}
           />
           <Button
             title="Create"
             onPress={() => {
               setOverlayVisible(false);
-
-              createTask(newTaskName);
+              createProject(projectName, projectDescription, user);
             }}
           />
         </>
       </Overlay>
       <Button
         type="outline"
-        title="Add Task"
+        title="Add Project"
         onPress={() => {
           setOverlayVisible(true);
         }}

@@ -6,7 +6,7 @@ let app;
 export function getRealmApp() {
   if (app === undefined) {
 
-    const appId = 'playground-asyoy'; // Set Realm app ID here.
+    const appId = 'looprannotator-cwrdv'; // Set Realm app ID here.
 
     const appConfig = {
       id: appId,
