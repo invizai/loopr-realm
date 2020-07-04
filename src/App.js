@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, View, StatusBar} from 'react-native';
+import {Text, View, StatusBar, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -12,10 +12,21 @@ import {LogInView} from './view/LogInView';
 import {ProjectsView} from './view/ProjectsView';
 import {ProductsView} from './view/ProductsView';
 
+import Logo from "./assets/logo.svg"
 import Icon from 'react-native-vector-icons/Ionicons';
+import { colors, buttonStyles } from '../theme';
+import { Button } from 'react-native-elements';
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
+
+function LogoTitle() {
+  return (
+    <View>
+      <Logo height={50} style={{left:-30}} />
+    </View>
+  );
+}
 
 function ProjectsScreen() {
   return (
@@ -34,8 +45,19 @@ function ProductsScreen() {
 }
 
 function HomeStackScreen() {
+  const {logOut} = useAuth()
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: colors.accent,
+        height:70
+      },
+      headerTitle:props=><LogoTitle {...props} />,
+      headerRight:props=><Button {...buttonStyles.clear} titleStyle={{color:colors.primary}} title="Log Out" onPress={logOut} />,
+      headerRightContainerStyle:{paddingRight:10}
+    }}
+    >
       <HomeStack.Screen name='Home' component={ProjectsScreen}/>
       <HomeStack.Screen name='Products' component={ProductsScreen} />
     </HomeStack.Navigator>
@@ -60,10 +82,9 @@ function App() {
 }
 
 function AppBody() {
-  const {user} = useAuth();
-
+  const {user} = useAuth()
   return (
-    <>
+    <View style={styles.container}>
       {user == null ? (<LogInView />) : (
       <NavigationContainer>
         <Tab.Navigator
@@ -80,15 +101,23 @@ function AppBody() {
             },
           })}
           tabBarOptions={{
-            activeTintColor: 'tomato',
+            activeTintColor: colors.primary,
             inactiveTintColor: 'gray',
           }}>
           <Tab.Screen name="Home" component={HomeStackScreen} />
           <Tab.Screen name="Settings" component={SettingsScreen} />
         </Tab.Navigator>
       </NavigationContainer>)}
-    </>
+    </View>
   );
 }
 
 export default App;
+
+const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor:colors.primary
+  }
+})
+

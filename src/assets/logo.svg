@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="201.931" height="79.793" viewBox="0 0 201.931 79.793">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        font-size: 56px;
+        font-family: SegoeUI, Segoe UI;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #fff;
+        opacity: 0.997;
+      }
+    </style>
+  </defs>
+  <g id="Loopr_Logo" data-name="Loopr Logo" transform="translate(-20.071 -17.515)">
+    <text id="LOOPR" class="cls-1" transform="translate(20.071 77.515)"><tspan x="0" y="0">LOOPR</tspan></text>
+    <line id="Line_1" data-name="Line 1" class="cls-2" x2="45.88" transform="translate(20.37 96.808)"/>
+    <line id="Line_2" data-name="Line 2" class="cls-2" x2="45.88" transform="translate(176.122 20.37)"/>
+  </g>
+</svg>

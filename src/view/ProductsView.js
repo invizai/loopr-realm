@@ -1,40 +1,14 @@
-import React from 'react';
-import {Text, View, Dimensions, ScrollView} from 'react-native';
+import React,{useState, useRef} from 'react';
+import {Text, View, Dimensions, ScrollView, StyleSheet} from 'react-native';
 
 import Swiper from 'react-native-swiper';
 
 import {useAuth} from '../providers/AuthProvider';
 import {useProducts} from '../providers/ProductsProvider';
-import {ProductItem} from '../components/ProductItem';
+import ProductItem from '../components/ProductItem';
+import { Button } from 'react-native-elements';
 
 const {width} = Dimensions.get('window');
-
-const styles = {
-  wrapper: {},
-  slide: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-  },
-  text: {
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-  image: {
-    width,
-    flex: 1,
-  },
-  paginationStyle: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-  },
-  paginationText: {
-    color: 'teal',
-    fontSize: 14,
-  },
-};
 
 const renderPagination = (index, total, context) => {
   return (
@@ -46,33 +20,74 @@ const renderPagination = (index, total, context) => {
   );
 };
 
+export default class SwiperComponent extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      swiper:null
+    }
+    this.swiperRef = swiper => this.state.swiper = swiper
+    this.scrollHandler = page => {
+      console.log ('Page ',page,this.state.swiper)
+      this.state.swiper && this.state.swiper.scrollBy(page, true)
+    }
+  }
+  render() {
+    return (
+      <>
+      <Text h2>{this.props.project.name}</Text>
+      <Swiper 
+        ref={ this.swiperRef }
+        style={styles.wrapper}
+        renderPagination={renderPagination}
+        loop={false}
+      >
+       {this.props.products.map((product,i) => (
+          <ProductItem 
+          index={i}
+          next={e=>this.state.swiper.scrollBy(1, true)}
+          prev={e=>this.state.swiper.scrollBy(-1, true)}
+           key={`${product._id}`} product={product} />
+        ))}
+      </Swiper>
+      </>
+    )
+  }
+}
+
 export function ProductsView({project}) {
   const {logOut} = useAuth();
   const {products} = useProducts();
 
   return (
-    <>
-      <Text h2>{project.name}</Text>
-
-      <Swiper
-        style={styles.wrapper}
-        renderPagination={renderPagination}
-        loop={false}>
-        {products.map(product => (
-          <ProductItem key={`${product._id}`} product={product} />
-        ))}
-      </Swiper>
-    </>
+    <SwiperComponent project={project} logout={logOut} products={products} />
   );
 }
 
-/*
-<Swiper
-  style={styles.wrapper}
-  renderPagination={renderPagination}
-  loop={false}>
-  {products.map(product => (
-    <ProductItem key={`${product._id}`} product={product} />
-  ))}
-</Swiper> 
-*/
+
+const styles = StyleSheet.create({
+  wrapper: {},
+  slide1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9DD6EB'
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#97CAE5'
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#92BBD9'
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold'
+  }
+})
