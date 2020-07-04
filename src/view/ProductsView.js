@@ -57,7 +57,22 @@ export default class SwiperComponent extends React.Component {
 
 export function ProductsView({project}) {
   const {logOut} = useAuth();
-  const {products} = useProducts();
+  const {products, setProductFeedback} = useProducts();
+
+  let [inProgress, setInProgress] = useState(false);
+
+  const saveAnnotation = () => {
+    // setInProgress(true);
+    // let pMap = products.reduce((a, x) => ({...a, [x._id]: x}), {});
+    // reviewedProducts.forEach(p => {
+    //   let product = pMap[p._id];
+    //   if (product === undefined) {
+    //     setProductFeedback(product, p.relevance);
+    //   }
+    // });
+    // setReviewedProducts([]);
+    // setInProgress(false);
+  }
 
   return (
     <SwiperComponent project={project} logout={logOut} products={products} />

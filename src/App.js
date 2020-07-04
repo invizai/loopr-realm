@@ -65,10 +65,11 @@ function HomeStackScreen() {
 }
 
 function SettingsScreen() {
+  const {logOut} = useAuth();
   return (
-    <View>
+    <View style={{flex:1, flexDirection: 'column-reverse'}}>
       <StatusBar barStyle="dark-content" />
-      <Text>Settings!</Text>
+      <Button title="Log Out" onPress={logOut} />
     </View>
   );
 }

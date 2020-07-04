@@ -58,10 +58,29 @@ const ProductsProvider = ({children}) => {
     };
   }, [user]);
 
+  const setProductFeedback = (product, relevance) => {
+    if (
+      ![
+        Product.SCORE_OFF_TOPIC,
+        Product.SCORE_ACCEPTABLE,
+        Product.SCORE_GOOD,
+        Product.SCORE_EXCELLENT
+      ].includes(relevance)
+    ) {
+      throw new Error(`Invalid Score ${relevance}`);
+    }
+    const realm = realmRef.current;
+
+    realm.write(() => {
+      product.relevance = relevance;
+    });
+  };
+
   return (
     <ProductsContext.Provider
       value={{
-        products
+        products,
+        setProductFeedback,
       }}>
       {children}
     </ProductsContext.Provider>

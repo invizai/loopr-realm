@@ -39,6 +39,7 @@ export function ProjectsView() {
           <ProjectItem key={`${project._id}`} onPress={() => navigation.navigate('Products', {project: project})}  project={project} />
         ))}
       </ScrollView>
+      <AddProjectView />
     </>
   );
 }
