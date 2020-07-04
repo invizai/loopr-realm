@@ -1,20 +1,29 @@
 import React, {useState} from 'react';
 
-import {Image, Text, Linking} from 'react-native';
-import {Card} from 'react-native-elements';
+import {Linking, ActivityIndicator} from 'react-native';
+import {Text, Card, Image} from 'react-native-elements';
+
+import {Feedback} from '../components/Feedback';
 
 export function ProductItem({product}) {
   return (
     <>
-      <Card
-        title={product.product_query}
-        image={require('../assets/images/place.png')}>
-        <Text h3>{product.product_title}</Text>
+      <Card>
+        <Text h4>Query: {product.query}</Text>
+        <Image
+          source={{
+            uri: product.product_image,
+          }}
+          style={{width: 300, height: 300, marginTop: 10, marginBottom: 10}}
+          PlaceholderContent={<ActivityIndicator />}
+        />
+        <Text h5>Result title: {product.product_title}</Text>
         <Text
           style={{color: 'blue'}}
           onPress={() => Linking.openURL(product.product_link)}>
           More info
         </Text>
+        <Feedback product={product} />
       </Card>
     </>
   );

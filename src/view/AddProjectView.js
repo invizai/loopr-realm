@@ -37,7 +37,6 @@ export function AddProjectView() {
         </>
       </Overlay>
       <Button
-        type="outline"
         title="Add Project"
         onPress={() => {
           setOverlayVisible(true);

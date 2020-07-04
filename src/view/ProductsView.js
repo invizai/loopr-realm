@@ -1,5 +1,6 @@
-import React from 'react';
-import {Text, View, Dimensions, ScrollView} from 'react-native';
+import React, { useState } from 'react';
+import {Text, View, Dimensions, ActivityIndicator} from 'react-native';
+import {Button} from 'react-native-elements';
 
 import Swiper from 'react-native-swiper';
 
@@ -48,12 +49,27 @@ const renderPagination = (index, total, context) => {
 
 export function ProductsView({project}) {
   const {logOut} = useAuth();
-  const {products} = useProducts();
+  const {products, setProductFeedback} = useProducts();
+
+  let [inProgress, setInProgress] = useState(false);
+
+  const saveAnnotation = () => {
+    // setInProgress(true);
+    // let pMap = products.reduce((a, x) => ({...a, [x._id]: x}), {});
+    // reviewedProducts.forEach(p => {
+    //   let product = pMap[p._id];
+    //   if (product === undefined) {
+    //     setProductFeedback(product, p.relevance);
+    //   }
+    // });
+    // setReviewedProducts([]);
+    // setInProgress(false);
+  }
 
   return (
     <>
-      <Text h2>{project.name}</Text>
-
+      <Text style={{paddingLeft: 20, paddingTop: 20}} h1>{project.name}</Text>
+      {inProgress ? <ActivityIndicator size="large" color="#0000ff" /> : null}
       <Swiper
         style={styles.wrapper}
         renderPagination={renderPagination}
@@ -62,17 +78,8 @@ export function ProductsView({project}) {
           <ProductItem key={`${product._id}`} product={product} />
         ))}
       </Swiper>
+
+      <Button title="Save Change" onPress={saveAnnotation()} />
     </>
   );
 }
-
-/*
-<Swiper
-  style={styles.wrapper}
-  renderPagination={renderPagination}
-  loop={false}>
-  {products.map(product => (
-    <ProductItem key={`${product._id}`} product={product} />
-  ))}
-</Swiper> 
-*/

@@ -18,16 +18,12 @@ export function ProjectsView() {
 
   return (
     <>
-      <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-        <Button type="outline" title="Log Out" onPress={logOut} />
-        <AddProjectView />
-      </View>
-      <Text h2>{user.name}</Text>
       <ScrollView>
         {projects.map(project => (
           <ProjectItem key={`${project._id}`} onPress={() => navigation.navigate('Products', {project: project})}  project={project} />
         ))}
       </ScrollView>
+      <AddProjectView />
     </>
   );
 }

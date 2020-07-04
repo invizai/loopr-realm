@@ -1,5 +1,7 @@
 import * as React from 'react';
-import {Text, View, StatusBar} from 'react-native';
+import {View, StatusBar} from 'react-native';
+import {Button} from 'react-native-elements';
+
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -43,10 +45,11 @@ function HomeStackScreen() {
 }
 
 function SettingsScreen() {
+  const {logOut} = useAuth();
   return (
-    <View>
+    <View style={{flex:1, flexDirection: 'column-reverse'}}>
       <StatusBar barStyle="dark-content" />
-      <Text>Settings!</Text>
+      <Button title="Log Out" onPress={logOut} />
     </View>
   );
 }
