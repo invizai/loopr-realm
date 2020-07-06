@@ -52,17 +52,17 @@ export function OptionButton({title, text, saveOption, selected}) {
   return (
     <View style={{flexDirection: 'column', margin: 10,flex:1, justifyContent: 'center', alignItems: 'center'}}>
       <Button {...buttonStyles.outline} buttonStyle={{...bStyle,...selected?selectedStyle:{}}}
-       titleStyle={{color:"#fff"}} title={"" + title} 
+       titleStyle={{color:'black'}} title={"" + title} 
        onPress={() => saveOption(title)}
        />
-      <Text style={{fontSize: 12,color:"#fff",paddingTop:5}}>{text}</Text>
+      <Text style={{fontSize: 12,color:"#0F0F0F",paddingTop:5}}>{text}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
     question:{
-        color:"#fff",
+        color:"#17202A",
         borderColor:"#fff",
         borderRadius:5,
         borderWidth:1,

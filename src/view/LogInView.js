@@ -48,7 +48,7 @@ export function LogInView(props) {
     setPasswordShow(prev=>!prev)
   }
   return (
-    <ScrollView>
+    <ScrollView style={{backgroundColor:'#063f57',}}>
     <View style={styles.container} >
       <Logo style={{alignSelf:"center",marginVertical:100}}/>
       <Text style={{textAlign:"center",color:"red",paddingVertical:10}}>{error}</Text>
@@ -89,5 +89,6 @@ const styles = StyleSheet.create({
   container:{
     padding:20,
     display:"flex",
+    
   }
 })

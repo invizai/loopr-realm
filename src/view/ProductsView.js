@@ -37,7 +37,7 @@ export default class SwiperComponent extends React.Component {
     return (
       <>
       <View  style={styles.project}>
-      <Text style={{color:"#fff"}} h4>{this.props.project.name}</Text>
+      <Text style={{color:"#fff",fontSize:25}}>{this.props.project.name}</Text>
       <Button  title="Save" />
       </View>
       <Swiper 
@@ -71,7 +71,7 @@ export function ProductsView({project}) {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor:colors.primary
+    backgroundColor:'white',
   },
   slide1: {
     flex: 1,
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   project:{
     padding:20,
     paddingBottom:11,
-    backgroundColor:colors.primary,
+    backgroundColor:'#17202A',
     justifyContent:"space-between",
     flexDirection:"row"
   },

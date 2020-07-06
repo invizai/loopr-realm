@@ -12,7 +12,7 @@ function ProductItem(props) {
     <>
       <View style={styles.container}>
         <ScrollView style={{flexGrow: 1}}>
-          <Text h4 style={{...styles.query, ...styles.border}}>
+          <Text h4 style={{...styles.query, ...styles.border, fontSize:16}}>
             Query : {product.query}
           </Text>
           <View
@@ -50,7 +50,7 @@ function ProductItem(props) {
             justifyContent: 'space-between',
             marginBottom: 20,
           }}>
-          <Text style={{textAlign: 'center', color: '#fff'}} h4>
+          <Text style={{textAlign: 'center', color: '#0F0F0F'}} h4>
             Swipe to view next item
           </Text>
         </View>
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: '#fff',
+    color: 'black',
     paddingVertical: 10,
   },
   query: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
   },
   border: {
-    color: '#fff',
+    color: 'black',
     borderColor: '#fff',
     borderRadius: 5,
     borderWidth: 1,
