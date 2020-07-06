@@ -11,15 +11,6 @@ import { colors, buttonStyles } from '../../theme';
 
 const {width} = Dimensions.get('window');
 
-const renderPagination = (index, total, context) => {
-  return (
-    <View style={styles.paginationStyle}>
-      <Text style={{color: 'grey'}}>
-        <Text style={styles.paginationText}>{index + 1}</Text>/{total}
-      </Text>
-    </View>
-  );
-};
 
 export default class SwiperComponent extends React.Component {
   constructor(props){
@@ -33,7 +24,17 @@ export default class SwiperComponent extends React.Component {
       this.state.swiper && this.state.swiper.scrollBy(page, true)
     }
   }
+  
   render() {
+    const renderPagination = (index, total, context) => {
+      return (
+        <View style={styles.paginationStyle}>
+          <Text style={{color: 'white'}}>
+            <Text style={styles.paginationText}>{index + 1}</Text>/{total}
+          </Text>
+        </View>
+      );
+    };
     return (
       <>
       <View  style={styles.project}>
@@ -47,6 +48,7 @@ export default class SwiperComponent extends React.Component {
         loop={false}
       >
        {this.props.products.slice(0,10).map((product,i) => (
+         
           <ProductItem 
           index={i}
           next={e=>this.state.swiper.scrollBy(2,true)}
