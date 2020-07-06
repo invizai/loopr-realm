@@ -19,7 +19,7 @@ const ProjectsProvider = ({children}) => {
     }
 
     const config = {
-      schema: [Project.schema, Product.schema],
+      schema: [Project.schema],
       sync: {
         user,
         partitionValue: user.identity,

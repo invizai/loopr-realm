@@ -53,14 +53,14 @@ function ProductsScreen({route}) {
 }
 
 
-function SummaryScreen({route, navigation}) {
+function SummaryScreen({route}) {
   const { projectName, projectId, projectDate} = route.params;
   return (
-    <ProjectsProvider project={projectId}>
-      <SummaryView project={{name:projectName,_id:projectId, date:projectDate}} navigation={navigation}>
+    <ProductsProvider project={projectId}>
+      <SummaryView project={{name:projectName,_id:projectId, date:projectDate}}>
 
       </SummaryView>
-    </ProjectsProvider>
+    </ProductsProvider>
   )
 }
 function AddProjectScreen({ navigation }) {

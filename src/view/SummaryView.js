@@ -1,17 +1,46 @@
 import * as React from 'react';
-import { Text, Image, ImageBackground, Button, TextInput, Dimensions, TouchableOpacity, View, StyleSheet, SafeAreaView, FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { Text, Image, ActivityIndicator, Dimensions, TouchableOpacity, View, StyleSheet, SafeAreaView, ScrollView, TouchableWithoutFeedback } from 'react-native';
 import * as Progress from 'react-native-progress';
 
-import Icons1 from 'react-native-vector-icons/AntDesign';
-import Icons2 from 'react-native-vector-icons/Ionicons'
-import { Container, Header, Left, Body, Right, Title, Subtitle, Icon, CardItem } from 'native-base';
-const { width, height } = Dimensions.get('window');
-const SummaryView = ({ navigation, project}) => {
+import { useNavigation } from '@react-navigation/native';
 
-    console.log("Project:",project);
-    console.log("ProjectId:",project._id);
-    console.log("ProjectName:",project.date);
+import Icons1 from 'react-native-vector-icons/AntDesign';
+import { Container, Left, Body, Right, CardItem } from 'native-base';
+
+
+const { width, height } = Dimensions.get('window');
+
+import {useProducts} from '../providers/ProductsProvider';
+
+const SummaryView = ({ project }) => {
+
+    const navigation = useNavigation();
+
+    const {products} = useProducts();
+
+    let progress = [0, 0, 0, 0, 0]; // Counter for Not Marked, OffTopic, Acceptable, Good, Excellent
+
+    products.forEach(product => {
+        progress[product.relevance] += 1;
+    })
+
+    let totalAnnotation = products.length;
+    let markedAnnotation = totalAnnotation - progress[0];
+    let pendingAnnotation = progress[0];
+
+    const calulatePercentage = (num, deno) => {
+        if (deno == 0) return 0;
+        return (num/deno) * 100;
+    }
+
+    const calulateProgress = (num, deno) => {
+        if (deno == 0) return 0.0;
+        return (num/deno);
+    }
+
     return (
+        <>
+        {products.length === 0 ? <View style={mainStyle.loading}><ActivityIndicator size='large' /></View> :
         <SafeAreaView style={mainStyle.wrapperBackground}>
             <Container>
                 <ScrollView style={[mainStyle.wrapperBackground, { marginBottom: 120 }]}>
@@ -34,24 +63,18 @@ const SummaryView = ({ navigation, project}) => {
                             <View style={mainStyle.sumCard}>
                                 <View style={mainStyle.sumCardProgress}>
                                     <CardItem>
-                                        <Left></Left>
-                                        <Right><Text>Total Annotations: 9979</Text></Right>
-
+                                        <Left><Text>Total Annotations: {totalAnnotation}</Text></Left>
                                     </CardItem>
                                     <CardItem>
                                         <Body>
-                                            <Progress.Bar progress={0.3} width={width - 90} useNativeDriver={true} />
-
+                                            <Progress.Bar progress={markedAnnotation/totalAnnotation} width={width - 90} useNativeDriver={true} />
                                         </Body>
                                     </CardItem>
                                 </View>
                                 <View style={mainStyle.sumCardDetail}>
-                                    <CardItem><Left><Text>Annotations Completed</Text></Left><Right><Text>1258</Text></Right></CardItem>
-                                    <CardItem><Left><Text>Annotations Pendings</Text></Left><Right><Text>7893</Text></Right></CardItem>
-                                    <CardItem><Left><Text>Active Annotators</Text></Left><Right><Text>5</Text></Right></CardItem>
-
+                                    <CardItem><Text>Annotations Completed: {markedAnnotation}</Text></CardItem>
+                                    <CardItem><Text>Annotations Pendings: {pendingAnnotation}</Text></CardItem>
                                 </View>
-
                             </View>
 
                         </View>
@@ -67,10 +90,10 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Excellent</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.6} width={width / 2.5} borderRadius={1} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[4], markedAnnotation)} width={width / 2.5} borderRadius={1} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>560 (%)</Text>
+                                        <Text>{calulatePercentage(progress[4], markedAnnotation)} (%)</Text>
                                     </Right>
                                 </CardItem>
                                 <CardItem>
@@ -78,10 +101,10 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Good</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.1} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[3], markedAnnotation)} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>42 (%)</Text>
+                                        <Text>{calulatePercentage(progress[3], markedAnnotation)} (%)</Text>
                                     </Right>
                                 </CardItem>
                                 <CardItem>
@@ -89,10 +112,10 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Acceptable</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.4} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[2], markedAnnotation)} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>230 (%)</Text>
+                                        <Text>{calulatePercentage(progress[2], markedAnnotation)} (%)</Text>
                                     </Right>
                                 </CardItem>
                                 <CardItem>
@@ -100,17 +123,14 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Off-Topic</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.4} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[1], markedAnnotation)} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>230 (%)</Text>
+                                        <Text>{calulatePercentage(progress[1], markedAnnotation)} (%)</Text>
                                     </Right>
                                 </CardItem>
-
                             </View>
-
                         </View>
-
                     </TouchableWithoutFeedback>
 
                     <TouchableOpacity style={mainStyle.btn}>
@@ -122,16 +142,13 @@ const SummaryView = ({ navigation, project}) => {
                         }
                             project={project}
                         >
-                            Start Annotations</Text>
+                            Start Annotation</Text>
                         <Icons1 name="arrowright" size={20} color='white' style={{ textAlignVertical: 'center' }} />
                     </TouchableOpacity>
-
                 </ScrollView>
-
             </Container>
-
-        </SafeAreaView>
-
+        </SafeAreaView>}
+        </>
     )
 
 }
@@ -149,7 +166,6 @@ const mainStyle = StyleSheet.create({
         borderWidth: 0,
         marginHorizontal: 10,
         width: width - 40,
-
     },
     boxShadow: {
         shadowColor: '#000',
@@ -173,11 +189,8 @@ const mainStyle = StyleSheet.create({
         backgroundColor: '#063f57',
         height: height,
         color: 'white',
-
     },
-
     row: {
-
         flexDirection: 'row',
     },
     btn: {
@@ -190,17 +203,24 @@ const mainStyle = StyleSheet.create({
         borderRadius: 5,
         flexDirection: 'row',
         justifyContent: 'center',
-
     },
     buttonText: {
-
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold',
         padding: 8,
         marginHorizontal: 10,
-
     },
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        opacity: 0.5,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 })
 
 export default SummaryView;
