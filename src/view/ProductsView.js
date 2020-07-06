@@ -1,5 +1,5 @@
 import React,{useState, useRef} from 'react';
-import {View, Dimensions, ScrollView, StyleSheet} from 'react-native';
+import {View, Dimensions, ScrollView, StyleSheet, ActivityIndicator} from 'react-native';
 
 import Swiper from 'react-native-swiper';
 
@@ -46,7 +46,7 @@ export default class SwiperComponent extends React.Component {
         renderPagination={renderPagination}
         loop={false}
       >
-       {this.props.products.slice(0,10).map((product,i) => (
+       {this.props.products.map((product,i) => (
           <ProductItem 
           index={i}
           next={e=>this.state.swiper.scrollBy(2,true)}
@@ -61,10 +61,13 @@ export default class SwiperComponent extends React.Component {
 
 export function ProductsView({project}) {
   const {logOut} = useAuth();
+
   const {products} = useProducts();
 
   return (
-    <SwiperComponent project={project} logout={logOut} products={products} />
+    <>
+    {products.length === 0 ? <View style={styles.loading}><ActivityIndicator size='large' /></View> : <SwiperComponent project={project} logout={logOut} products={products} />}
+    </>
   );
 }
 
@@ -108,5 +111,15 @@ const styles = StyleSheet.create({
     alignItems:"center",
     padding:10,
     backgroundColor:colors.primary
+  },
+  loading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    opacity: 0.5,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })
