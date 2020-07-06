@@ -5,12 +5,26 @@ import * as Progress from 'react-native-progress';
 import Icons1 from 'react-native-vector-icons/AntDesign';
 import Icons2 from 'react-native-vector-icons/Ionicons'
 import { Container, Header, Left, Body, Right, Title, Subtitle, Icon, CardItem } from 'native-base';
+import { ClipPath } from 'react-native-svg';
 const { width, height } = Dimensions.get('window');
-const SummaryView = ({ navigation, project}) => {
+const SummaryView = ({ navigation, project, products }) => {
 
-    console.log("Project:",project);
-    console.log("ProjectId:",project._id);
-    console.log("ProjectName:",project.date);
+
+    // variables related to products
+    const [totalAnnotations, setTotalAnnotations] = React.useState(products.length);
+    const [completedAnnotations, setCompeletedAnnotations] = React.useState((products.filter(product => product.relevance != 0)).length);
+
+    // variables for relevance
+
+    const [countOffTopic, setCountOffTopic] = React.useState((products.filter(product => product.relevance == 1)).length);
+    const [countAcceptable, setCountAcceptable] = React.useState((products.filter(product => product.relevance == 2)).length);
+    const [countGood, setCountGood] = React.useState((products.filter(product => product.relevance == 3)).length);
+    const [countExcellent, setCountExcellent] = React.useState((products.filter(product => product.relevance == 4)).length);
+    // console.log((products.filter( product => product.relevance == 0)).length);
+
+    const annotationsPending = totalAnnotations - completedAnnotations;
+    // variables related to products
+
     return (
         <SafeAreaView style={mainStyle.wrapperBackground}>
             <Container>
@@ -35,21 +49,19 @@ const SummaryView = ({ navigation, project}) => {
                                 <View style={mainStyle.sumCardProgress}>
                                     <CardItem>
                                         <Left></Left>
-                                        <Right><Text>Total Annotations: 9979</Text></Right>
+                                        <Right><Text>Total Annotations: {totalAnnotations}</Text></Right>
 
                                     </CardItem>
                                     <CardItem>
                                         <Body>
-                                            <Progress.Bar progress={0.3} width={width - 90} useNativeDriver={true} />
+                                            <Progress.Bar progress={completedAnnotations / totalAnnotations} width={width - 90} useNativeDriver={true} />
 
                                         </Body>
                                     </CardItem>
                                 </View>
                                 <View style={mainStyle.sumCardDetail}>
-                                    <CardItem><Left><Text>Annotations Completed</Text></Left><Right><Text>1258</Text></Right></CardItem>
-                                    <CardItem><Left><Text>Annotations Pendings</Text></Left><Right><Text>7893</Text></Right></CardItem>
-                                    <CardItem><Left><Text>Active Annotators</Text></Left><Right><Text>5</Text></Right></CardItem>
-
+                                    <CardItem><Left><Text>Annotations Completed</Text></Left><Right><Text>{completedAnnotations}</Text></Right></CardItem>
+                                    <CardItem><Left><Text>Annotations Pendings</Text></Left><Right><Text>{annotationsPending}</Text></Right></CardItem>
                                 </View>
 
                             </View>
@@ -67,10 +79,10 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Excellent</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.6} width={width / 2.5} borderRadius={1} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={countExcellent / completedAnnotations} width={width / 2.5} borderRadius={1} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>560 (%)</Text>
+                                        <Text> {countExcellent}</Text>
                                     </Right>
                                 </CardItem>
                                 <CardItem>
@@ -78,10 +90,10 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Good</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.1} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={countGood / completedAnnotations} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>42 (%)</Text>
+                                        <Text> {countGood}</Text>
                                     </Right>
                                 </CardItem>
                                 <CardItem>
@@ -89,10 +101,10 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Acceptable</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.4} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={countAcceptable/ completedAnnotations} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>230 (%)</Text>
+                                        <Text> {countAcceptable}</Text>
                                     </Right>
                                 </CardItem>
                                 <CardItem>
@@ -100,10 +112,10 @@ const SummaryView = ({ navigation, project}) => {
                                         <Text numberOfLines={1}>Off-Topic</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={0.4} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={countOffTopic/ completedAnnotations} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
-                                        <Text>230 (%)</Text>
+                                        <Text>{countOffTopic}</Text>
                                     </Right>
                                 </CardItem>
 

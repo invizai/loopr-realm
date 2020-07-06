@@ -55,9 +55,13 @@ function ProductsScreen({route}) {
 
 function SummaryScreen({route, navigation}) {
   const { projectName, projectId, projectDate} = route.params;
+
+  // Please remove the dummyProducts with original object and change the parameters as well in <SummaryView/>
+  const dummyProducts = [ { relevance:1, }, { relevance:2, }, { relevance:3, }, { relevance:4, }, { relevance:1, }, { relevance:2, }, { relevance:3, }, { relevance:4, }, { relevance:0, }, { relevance:0, }, { relevance:0, }, { relevance:0, }, ];
+
   return (
     <ProjectsProvider project={projectId}>
-      <SummaryView project={{name:projectName,_id:projectId, date:projectDate}} navigation={navigation}>
+      <SummaryView project={{name:projectName,_id:projectId, date:projectDate}} products={dummyProducts} navigation={navigation}>
 
       </SummaryView>
     </ProjectsProvider>
