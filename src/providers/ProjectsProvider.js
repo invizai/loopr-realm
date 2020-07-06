@@ -22,12 +22,12 @@ const ProjectsProvider = ({children}) => {
       schema: [Project.schema, Product.schema],
       sync: {
         user,
-        partitionValue: 'Loopr',
+        partitionValue: user.identity,
       },
     };
 
     console.log(
-      `Attempting to open Realm for user ${
+      `ProjectsProvider: Attempting to open Realm for user ${
         user.identity
       } with config: ${JSON.stringify(config)}...`,
     );
@@ -66,7 +66,7 @@ const ProjectsProvider = ({children}) => {
     realm.write(() => {
       realm.create(
         'Project',
-        new Project({name: newProjectName || 'New Project', description: projectDesc, user_id: user.identity }),
+        new Project({name: newProjectName || 'New Project', description: projectDesc, partition: user.identity, user_id: user.identity }),
       );
     });
   };

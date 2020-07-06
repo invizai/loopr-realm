@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import {View, ScrollView, StyleSheet} from 'react-native';
 import {Text, Button} from 'react-native-elements';
 
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-import {useAuth} from '../providers/AuthProvider';
 import {ProjectItem} from '../components/ProjectItem';
 import {AddProjectView} from './AddProjectView';
 
@@ -13,11 +12,10 @@ import Icon  from 'react-native-vector-icons/Feather';
 import { buttonStyles, colors } from '../../theme';
 
 export function ProjectsView() {
-  const {logOut, user} = useAuth();
   const navigation = useNavigation();
   const [createProject,setCreateProject] = useState(false);
-  
   let {projects} = useProjects();
+
   return (
     <>
       <Button
@@ -36,10 +34,18 @@ export function ProjectsView() {
       <Text h4 style={{...styles.container,color:"#fff",padding:10}}>Projects</Text>
       <ScrollView style={styles.container}>
         {projects.map(project => (
-          <ProjectItem key={`${project._id}`} onPress={() => navigation.navigate('Products', {project: project})}  project={project} />
+          <ProjectItem
+            key={`${project._id}`}
+            onPress={() =>
+              navigation.navigate('Products', {
+                projectId: project._id,
+                projectName: project.name,
+              })
+            }
+            project={project}
+          />
         ))}
       </ScrollView>
-      <AddProjectView />
     </>
   );
 }

@@ -5,7 +5,7 @@ import {Product} from '../models/schemas';
 
 const ProductsContext = React.createContext(null);
 
-const ProductsProvider = ({children}) => {
+const ProductsProvider = ({children, project}) => {
   const {user} = useAuth();
 
   const [products, setProducts] = useState([]);
@@ -22,12 +22,14 @@ const ProductsProvider = ({children}) => {
       schema: [Product.schema],
       sync: {
         user,
-        partitionValue: 'Loopr',
+        partitionValue: project.toString(),
       },
     };
 
     console.log(
-      `Attempting to open Realm for user ${user} with config: ${JSON.stringify(config)}...`,
+      `ProductProvider: Attempting to open Realm for user ${
+        user.identity
+      } with config: ${JSON.stringify(config)}...`,
     );
 
     let canceled = false;

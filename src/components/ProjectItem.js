@@ -9,7 +9,7 @@ export function ProjectItem({project, onPress}) {
     <TouchableOpacity onPress={onPress} activeOpacity={.9} style={styles.container} key={project.key}>
       <View style={{flexDirection:"row",alignItems:"flex-end"}}>
         <Image style={{height:50,width:50}} source={require("../assets/project.png")} />
-        <Text style={{ color:"grey",fontSize:18,paddingBottom:10,paddingLeft:10}}>2D Object Detection</Text>
+        <Text style={{ color:"grey",fontSize:18,paddingBottom:10,paddingLeft:10}}>Search Relevancy</Text>
       </View>
       <Text h4 h4Style={{fontSize:24}}>{project.name}</Text>
       <Text style={{ color:"grey",fontSize:16,paddingTop:10,}}>

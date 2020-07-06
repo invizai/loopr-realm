@@ -36,10 +36,12 @@ function ProjectsScreen() {
   )
 }
 
-function ProductsScreen() {
+function ProductsScreen({route}) {
+  const { projectName, projectId } = route.params;
+
   return (
-    <ProductsProvider>
-      <ProductsView project={{name: 'My Project'}}/>
+    <ProductsProvider project={projectId}>
+      <ProductsView project={{name: projectName}}/>
     </ProductsProvider>
   )
 }

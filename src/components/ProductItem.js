@@ -1,48 +1,90 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {Image, Text, Linking, View, } from 'react-native';
-import {Card, Button,CheckBox} from 'react-native-elements';
-import { buttonStyles } from '../../theme';
-import Icon from "react-native-vector-icons/MaterialIcons"
+import {Image, Text, Linking, View, StyleSheet} from 'react-native';
+import {Button} from 'react-native-elements';
+import {buttonStyles, colors} from '../../theme';
+import Feedback from '../components/Feedback';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 
-export default function ProductItem(props) {
-  const {product,prev,next,index} = props
-  const [checked, setChecked] = useState(false);
+function ProductItem(props) {
+  const {product, prev, next, index} = props;
   return (
     <>
-      <Card
-        image={{uri:product.product_image}}>
-        <Text h3>{product.product_title}</Text>
-        <Image source={{uri:product.product_image}} style={{height:100,width:100}} />
-        <Text
-          style={{color: 'blue'}}
-          onPress={() => Linking.openURL(product.product_link)}>
-          More info
-        </Text>
-        <CheckBox
-          title='Click Here'
-          checked={checked}
-          onPress={e=>setChecked(prev=>!prev)}
-        />
-        <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-        <Button
-        {...buttonStyles.solid}
-        containerStyle={{alignItems:"flex-start"}}
-        disabled={index<1}
-        title={`Previous`} 
-        onPress={()=>prev()}
-        icon={()=><Icon name="arrow-back" size={20} color="#fff" style={{paddingRight:30}} />}
-        />
-        <Button
-        {...buttonStyles.solid}
-        containerStyle={{alignItems:"flex-start"}}
-        title={`Next`} 
-        onPress={()=>next()}
-        icon={()=><Icon name="arrow-forward" size={20} color="#fff" style={{paddingLeft:30}} />}
-        iconRight={true}
-        />
+      <View style={styles.container}>
+        <ScrollView style={{flexGrow: 1}}>
+          <Text h4 style={{...styles.query, ...styles.border}}>
+            Query : {product.query}
+          </Text>
+          <View
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              source={{uri: product.product_image}}
+              style={{width: 200, height: 200, resizeMode: 'contain'}}
+            />
+          </View>
+          <Text h3 style={styles.title}>
+            Result title : {product.product_title}
+          </Text>
+          <Text h5>ID: {product.product_id}</Text>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            onPress={() => Linking.openURL(product.product_link)}>
+            <Text
+              style={{
+                color: colors.secondary,
+                fontWeight: 'bold',
+                fontSize: 14,
+              }}>
+              More Info
+            </Text>
+          </TouchableOpacity>
+          <Feedback product={product} />
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginBottom: 20,
+          }}>
+          <Text style={{textAlign: 'center', color: '#fff'}} h4>
+            Swipe to view next item
+          </Text>
         </View>
-      </Card>
+      </View>
     </>
   );
 }
+
+export default React.memo(ProductItem);
+
+const styles = StyleSheet.create({
+  container: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingBottom: 20,
+    flex: 1,
+  },
+  title: {
+    color: '#fff',
+    paddingVertical: 10,
+  },
+  query: {
+    padding: 10,
+    fontSize: 14,
+    textAlign: 'center',
+    textTransform: 'capitalize',
+  },
+  border: {
+    color: '#fff',
+    borderColor: '#fff',
+    borderRadius: 5,
+    borderWidth: 1,
+    marginBottom: 10,
+    borderColor: '#fff',
+    borderRadius: 5,
+  },
+});
