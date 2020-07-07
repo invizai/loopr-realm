@@ -20,7 +20,8 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-
+android/settings.gradle
+android/app/src/main/java/com/looprannotator/MainApplication.java
 # Android/IntelliJ
 #
 build/

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Text, View, StatusBar, StyleSheet} from 'react-native';
+import { Text, View, StatusBar, StyleSheet } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -28,7 +28,7 @@ const HomeStack = createStackNavigator();
 function LogoTitle() {
   return (
     <View>
-      <Logo height={50} style={{left:-30}} />
+      <Logo height={50} style={{ left: -30 }} />
     </View>
   );
 }
@@ -42,22 +42,24 @@ function ProjectsScreen() {
   )
 }
 
-function ProductsScreen({route}) {
+function ProductsScreen({ route }) {
   const { projectName, projectId } = route.params;
 
   return (
     <ProductsProvider project={projectId}>
-      <ProductsView project={{name: projectName}}/>
+      <ProductsView project={{ name: projectName }} />
     </ProductsProvider>
   )
 }
 
 
-function SummaryScreen({route}) {
-  const { projectName, projectId, projectDate} = route.params;
+function SummaryScreen({ route }) {
+  const { projectName, projectId, projectDate } = route.params;
+
   return (
+
     <ProductsProvider project={projectId}>
-      <SummaryView project={{name:projectName,_id:projectId, date:projectDate}}>
+      <SummaryView project={{ name: projectName, _id: projectId, date: projectDate }}>
 
       </SummaryView>
     </ProductsProvider>
@@ -90,7 +92,6 @@ function HomeStackScreen() {
       <HomeStack.Screen name='Products' component={ProductsScreen} />
       <HomeStack.Screen name="AddProject" component={AddProjectScreen} />
       <HomeStack.Screen name="SummaryView" component={SummaryScreen} />
-
     </HomeStack.Navigator>
   );
 }
@@ -134,7 +135,7 @@ function AppBody() {
               },
             })}
             tabBarOptions={{
-              activeTintColor: 'tomato',
+              activeTintColor: '#063f57',
               inactiveTintColor: 'gray',
             }}>
             <Tab.Screen name="Home" component={HomeStackScreen} />
@@ -148,8 +149,8 @@ function AppBody() {
 export default App;
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor:colors.primary
+  container: {
+    flex: 1,
+    backgroundColor: colors.primary
   }
 })
