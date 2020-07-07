@@ -5,7 +5,6 @@ import { Text, Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 import { ProjectItem } from '../components/ProjectItem';
-import { AddProjectView } from './AddProjectView';
 
 import { useProjects } from '../providers/ProjectsProvider';
 import Icon from 'react-native-vector-icons/Feather';
