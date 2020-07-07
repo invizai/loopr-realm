@@ -28,7 +28,7 @@ const SummaryView = ({ project }) => {
 
     const calulatePercentage = (num, deno) => {
         if (deno == 0) return 0;
-        return (num/deno) * 100;
+        return ((num/deno) * 100).toFixed(2);
     }
 
     const calulateProgress = (num, deno) => {
@@ -92,7 +92,7 @@ const SummaryView = ({ project }) => {
                                         <Text numberOfLines={1}>Excellent</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={calulateProgress(progress[4], markedAnnotation)} width={width / 2.5} borderRadius={1} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[4], markedAnnotation)} width={width /2.8} borderRadius={1} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
                                         <Text>{calulatePercentage(progress[4], markedAnnotation)} (%)</Text>
@@ -104,7 +104,7 @@ const SummaryView = ({ project }) => {
                                         <Text numberOfLines={1}>Good</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={calulateProgress(progress[3], markedAnnotation)} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[3], markedAnnotation)} width={width /2.8} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
                                         <Text>{calulatePercentage(progress[3], markedAnnotation)} (%)</Text>
@@ -115,7 +115,7 @@ const SummaryView = ({ project }) => {
                                         <Text numberOfLines={1}>Acceptable</Text>
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
-                                        <Progress.Bar progress={calulateProgress(progress[2], markedAnnotation)} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[2], markedAnnotation)} width={width /2.8} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
                                         <Text>{calulatePercentage(progress[2], markedAnnotation)} (%)</Text>
@@ -127,7 +127,7 @@ const SummaryView = ({ project }) => {
                                     </Left>
                                     <Body style={{ paddingVertical: 12, }}>
 
-                                        <Progress.Bar progress={calulateProgress(progress[1], markedAnnotation)} width={width / 2.5} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
+                                        <Progress.Bar progress={calulateProgress(progress[1], markedAnnotation)} width={width /2.8} borderRadius={0} borderWidth={0.5} useNativeDriver={true} />
                                     </Body>
                                     <Right>
                                         <Text>{calulatePercentage(progress[1], markedAnnotation)} (%)</Text>

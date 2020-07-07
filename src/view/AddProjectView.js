@@ -8,7 +8,9 @@ const { width, height } = Dimensions.get('window');
 import { useProjects } from '../providers/ProjectsProvider';
 import { useAuth } from '../providers/AuthProvider';
 
-export function AddProjectView({navigation}) {
+
+
+export function AddProjectView({ navigation }) {
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [projectName, setProjectName] = useState('');
   const [projectDescription, setProjectDescription] = useState('');
@@ -16,10 +18,25 @@ export function AddProjectView({navigation}) {
   const { createProject } = useProjects();
   const { user } = useAuth();
 
+  // validations
+  const [nameError, setNameError] = useState('');
+  const [descError, setDescError] = useState('');
+
+  function errors() {
+    if (projectName.trim() == '')
+      setNameError("Please provide project name");
+    else
+      setNameError('')
+    if (projectDescription.trim() == '')
+      setDescError("Please provide project description");
+    else
+      setDescError('')
+  }
+
   return (
     <SafeAreaView style={cpStyle.wrapperBackground}>
       <Container>
-       
+
 
 
         <View style={cpStyle.wrapperBackground}>
@@ -31,6 +48,7 @@ export function AddProjectView({navigation}) {
                 <Label style={cpStyle.label}>Project Name</Label>
                 <TextInput style={cpStyle.textInput} placeholderTextColor="#e4eaed" placeholder={"Enter your project name"} onChangeText={setProjectName}
                   autoFocus={true} />
+                <Label style={cpStyle.error}>{nameError}</Label>
               </View>
               <View style={cpStyle.input}>
                 <Label style={cpStyle.label}>Project Description</Label>
@@ -43,9 +61,10 @@ export function AddProjectView({navigation}) {
                   multiline={true}
                   onChangeText={setProjectDescription}
                 />
+                <Label style={cpStyle.error}>{descError}</Label>
               </View>
             </Form>
-            <TouchableOpacity style={cpStyle.btn} onPress={() => { createProject(projectName, projectDescription, user);  navigation.navigate('Home');}} >
+            <TouchableOpacity style={cpStyle.btn} onPress={() => { (projectName != '' && projectDescription != '') ? [errors(), createProject(projectName, projectDescription, user), navigation.navigate('Home')] : errors() }} >
               <Text style={cpStyle.buttonText}>Create </Text>
               <Icons1 name="arrowright" size={20} color='white' style={{ textAlignVertical: 'center' }} />
             </TouchableOpacity>
@@ -138,4 +157,10 @@ const cpStyle = StyleSheet.create({
     marginHorizontal: 10,
 
   },
+  error:{
+    color:'white',
+    fontSize:11,
+    paddingHorizontal:10,
+    color:'#EC7063'
+  }
 })
